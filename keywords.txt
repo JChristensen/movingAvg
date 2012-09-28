@@ -1,0 +1,3 @@
+movingAvg	KEYWORD1
+reading	KEYWORD2
+getAvg	KEYWORD2
