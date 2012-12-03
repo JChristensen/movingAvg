@@ -43,6 +43,6 @@ int movingAvg::reading(int newReading) {
 }
 
 //just returns the current moving average
-int movingAvg::getAvg() {
+int movingAvg::getAvg(void) {
     return (_sum + LIST_LEN / 2) / LIST_LEN;
 }

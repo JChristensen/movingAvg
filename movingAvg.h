@@ -33,7 +33,8 @@ class movingAvg
     public:
         movingAvg();
         int reading(int newReading);
-        int getAvg();
+        int getAvg(void);
+    
     private:
         int _readings[LIST_LEN];
         int _sum;           //sum of the _readings array
