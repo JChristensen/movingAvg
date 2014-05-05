@@ -17,13 +17,13 @@
  * letter to Creative Commons, 171 Second Street, Suite 300,            *
  * San Francisco, California, 94105, USA.                               *
  *----------------------------------------------------------------------*/
- 
+
 #ifndef movingAvg_h
 #define movingAvg_h
 #if defined(ARDUINO) && ARDUINO >= 100
-#include <Arduino.h> 
+#include <Arduino.h>
 #else
-#include <WProgram.h> 
+#include <WProgram.h>
 #endif
 
 #define LIST_LEN 6          //average six readings
