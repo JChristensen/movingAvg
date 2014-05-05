@@ -24,6 +24,10 @@ movingAvg::movingAvg() {
     _first = true;
 }
 
+void movingAvg::reset() {
+    _first = true;
+}
+
 //adds a new reading and returns the new moving average
 int movingAvg::reading(int newReading) {
     if (_first) {                       //if first time through, fill the readings array
