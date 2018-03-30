@@ -52,7 +52,7 @@ mySensor.begin();
 
 ### reading(int dataPoint)
 ##### Description
-Adds a new data point to the moving average. Returns the new moving average value. The first time that `reading()` is called, the interval array is filled with the supplied value, so the moving average will have a value equal to the first data point after the first call to `reading()`.
+Adds a new data point to the moving average. Returns the new moving average value. Until the interval array is filled, the average is calculated from those data points already added, i.e. a fewer number of points than defined by the constructor - thanks to Tom H. (Duckie) for this idea!
 ##### Syntax
 `reading(dataPoint);`
 ##### Parameters

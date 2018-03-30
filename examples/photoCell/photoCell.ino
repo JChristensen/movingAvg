@@ -29,4 +29,3 @@ void loop()
     Serial.println(avg);                // print the moving average
     delay(1000);
 }
-
