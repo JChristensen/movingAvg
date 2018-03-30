@@ -27,6 +27,6 @@ void loop()
     Serial.print(c16 / 16.0);                   // print the individual reading
     Serial.print("C ");
     Serial.print(avg / 16.0);                   // print the moving average
-    Serial.print("C \n");
+    Serial.print("C\n");
     delay(1000);
 }
