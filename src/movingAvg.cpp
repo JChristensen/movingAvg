@@ -1,48 +1,41 @@
-/*----------------------------------------------------------------------*
- * Arduino Moving Average Library v1.1                                  *
- *                                                                      *
- * Jack Christensen                                                     *
- * v1.0 29Jun2011                                                       *
- * v1.1 28Sep2012                                                       *
- *                                                                      *
- * Arduino library for calculating a moving average of sensor readings. *
- * Useful for situations where a sensor is read at regular intervals.   *
- * Readings and the moving average are ints. LIST_LEN sets the number   *
- * of readings used to calculate the moving average (currently set      *
- * to 6).                                                               *
- *                                                                      *
- * This work is licensed under the Creative Commons Attribution-        *
- * ShareAlike 3.0 Unported License. To view a copy of this license,     *
- * visit http://creativecommons.org/licenses/by-sa/3.0/ or send a       *
- * letter to Creative Commons, 171 Second Street, Suite 300,            *
- * San Francisco, California, 94105, USA.                               *
- *----------------------------------------------------------------------*/
+// Arduino Moving Average Library
+// https://github.com/JChristensen/movingAvg
+// Copyright (C) 2018 by Jack Christensen and licensed under
+// GNU GPL v3.0, https://www.gnu.org/licenses/gpl.html
 
-#include "movingAvg.h"
+#include <movingAvg.h>
 
-movingAvg::movingAvg() {
-    _first = true;
+// initialize - allocate the interval array
+void movingAvg::begin()
+{
+    m_readings = new int[m_interval];
 }
 
-//adds a new reading and returns the new moving average
-int movingAvg::reading(int newReading) {
-    if (_first) {                       //if first time through, fill the readings array
-        _first = false;
-        _next = 0;
-        _sum = newReading * LIST_LEN;
-        for (uint8_t i=0; i<LIST_LEN; i++) {
-           _readings[i] = newReading;
+// add a new reading and returns the new moving average
+int movingAvg::reading(int newReading)
+{
+    // if first time through, fill the readings array
+    if (m_first)
+    {
+        m_first = false;
+        m_next = 0;
+        m_sum = newReading * m_interval;
+        for (int i=0; i<m_interval; i++)
+        {
+           m_readings[i] = newReading;
         }
     }
-    else {
-        _sum = _sum - _readings[_next] + newReading;
-        _readings[_next] = newReading;
-        _next = ++_next % LIST_LEN;
+    else
+    {
+        m_sum = m_sum - m_readings[m_next] + newReading;
+        m_readings[m_next] = newReading;
+        m_next = ++m_next % m_interval;
     }
-    return (_sum + LIST_LEN / 2) / LIST_LEN;
+    return (m_sum + m_interval / 2) / m_interval;
 }
 
-//just returns the current moving average
-int movingAvg::getAvg(void) {
-    return (_sum + LIST_LEN / 2) / LIST_LEN;
+// just return the current moving average
+int movingAvg::getAvg()
+{
+    return (m_sum + m_interval / 2) / m_interval;
 }

@@ -1,44 +1,26 @@
-/*----------------------------------------------------------------------*
- * Arduino Moving Average Library v1.1                                  *
- *                                                                      *
- * Jack Christensen                                                     *
- * v1.0 29Jun2011                                                       *
- * v1.1 28Sep2012                                                       *
- *                                                                      *
- * Arduino library for calculating a moving average of sensor readings. *
- * Useful for situations where a sensor is read at regular intervals.   *
- * Readings and the moving average are ints. LIST_LEN sets the number   *
- * of readings used to calculate the moving average (currently set      *
- * to 6).                                                               *
- *                                                                      *
- * This work is licensed under the Creative Commons Attribution-        *
- * ShareAlike 3.0 Unported License. To view a copy of this license,     *
- * visit http://creativecommons.org/licenses/by-sa/3.0/ or send a       *
- * letter to Creative Commons, 171 Second Street, Suite 300,            *
- * San Francisco, California, 94105, USA.                               *
- *----------------------------------------------------------------------*/
- 
-#ifndef movingAvg_h
-#define movingAvg_h
-#if defined(ARDUINO) && ARDUINO >= 100
-#include <Arduino.h> 
-#else
-#include <WProgram.h> 
-#endif
+// Arduino Moving Average Library
+// https://github.com/JChristensen/movingAvg
+// Copyright (C) 2018 by Jack Christensen and licensed under
+// GNU GPL v3.0, https://www.gnu.org/licenses/gpl.html
 
-#define LIST_LEN 6          //average six readings
+#ifndef MOVINGAVG_H_INCLUDED
+#define MOVINGAVG_H_INCLUDED
 
 class movingAvg
 {
     public:
-        movingAvg();
+        movingAvg(int interval)
+            : m_interval(interval), m_nbrReadings(0), m_first(true) {}
+        void begin();
         int reading(int newReading);
-        int getAvg(void);
+        int getAvg();
     
     private:
-        int _readings[LIST_LEN];
-        int _sum;           //sum of the _readings array
-        boolean _first;     //first-time switch
-        uint8_t _next;      //index to the next reading
+        int m_interval;     // number of data points for the moving average
+        int m_nbrReadings;  // number of readings
+        bool m_first;       // first-time switch
+        int *m_readings;    // pointer to the dynamically allocated interval array
+        long m_sum;         // sum of the m_readings array
+        int m_next;         // index to the next reading
 };
 #endif
