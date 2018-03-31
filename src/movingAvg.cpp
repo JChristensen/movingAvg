@@ -14,11 +14,13 @@ void movingAvg::begin()
 // add a new reading and return the new moving average
 int movingAvg::reading(int newReading)
 {
+    // add each new data point to the sum until the m_readings array is filled
     if (m_nbrReadings < m_interval)
     {
         ++m_nbrReadings;
         m_sum = m_sum + newReading;
     }
+    // once the array is filled, subtract the oldest data point and add the new one
     else
     {
         m_sum = m_sum - m_readings[m_next] + newReading;
