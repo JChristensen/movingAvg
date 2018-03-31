@@ -78,3 +78,17 @@ The moving average value. *(int)*
 ```c++
 int sensorMovingAvg = mySensor.getAvg();
 ```
+
+### reset()
+##### Description
+Restarts the moving average. Zeros the interval array and associated data.
+##### Syntax
+`reset();`
+##### Parameters
+None.
+##### Returns
+None.
+##### Example
+```c++
+mySensor.reset();
+```

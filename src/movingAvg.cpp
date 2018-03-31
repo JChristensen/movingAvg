@@ -25,7 +25,7 @@ int movingAvg::reading(int newReading)
     {
         m_sum = m_sum - m_readings[m_next] + newReading;
     }
-    
+
     m_readings[m_next] = newReading;
     if (++m_next >= m_interval) m_next = 0;
     return (m_sum + m_nbrReadings / 2) / m_nbrReadings;
@@ -35,4 +35,12 @@ int movingAvg::reading(int newReading)
 int movingAvg::getAvg()
 {
     return (m_sum + m_nbrReadings / 2) / m_nbrReadings;
+}
+
+// start the moving average over again
+void movingAvg::reset()
+{
+    m_nbrReadings = 0;
+    m_sum = 0;
+    m_next = 0;
 }
