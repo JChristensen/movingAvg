@@ -11,7 +11,10 @@ class movingAvg
     public:
         movingAvg(int interval)
             : m_interval(interval), m_nbrReadings(0), m_sum(0), m_next(0) {}
+        movingAvg()
+            : m_interval(1), m_nbrReadings(0), m_sum(0), m_next(0) {}
         void begin();
+        void begin(int interval);
         int reading(int newReading);
         int getAvg();
         void reset();

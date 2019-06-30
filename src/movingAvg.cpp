@@ -11,6 +11,13 @@ void movingAvg::begin()
     m_readings = new int[m_interval];
 }
 
+void movingAvg::begin(int interval)
+{
+    reset();
+    m_interval = interval;
+    m_readings = new int[m_interval];
+}
+
 // add a new reading and return the new moving average
 int movingAvg::reading(int newReading)
 {
