@@ -81,7 +81,7 @@ int sensorMovingAvg = mySensor.getAvg();
 
 ### getCount()
 ##### Description
-Returns the number of data points collected for the moving average, a number between zero and *interval*. This function can be used to determine if a valid moving average exists. This may be useful, for example, to avoid calling `getAvg()` before any data points have been added to the moving average. Calling getAvg() before any data points are added causes a divide by zero which will result in invalid data and/or undefined/undesired behavior.
+Returns the number of data points collected for the moving average, a number between zero and *interval*. This function can be used to determine if a valid moving average exists. This may be useful, for example, to avoid calling `getAvg()` before any data points have been added to the moving average. Calling `getAvg()` before any data points are added causes a divide by zero which will result in invalid data and/or undefined/undesired behavior.
 ##### Syntax
 `getCount();`
 ##### Parameters
