@@ -106,3 +106,23 @@ None.
 ```c++
 mySensor.reset();
 ```
+
+### getReadings()
+##### Description
+Returns a pointer to the integer array containing the collected data points.
+##### Syntax
+`getReadings();`
+##### Parameters
+None.
+##### Returns
+Pointer to an integer array. *(int\*)*
+##### Example
+```c++
+movingAvg foo(6);
+...
+int* myData;
+myData = foo.getReadings();
+Serial.println(myData[0]);  // first data point
+Serial.println(myData[1]);  // second data point
+// etc.
+```
