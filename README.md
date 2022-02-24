@@ -79,6 +79,20 @@ The moving average value. *(int)*
 int sensorMovingAvg = mySensor.getAvg();
 ```
 
+### getAvg(int nPoints)
+##### Description
+Like `getAvg()` except only uses the most recent `nPoints` data points to calculate the average. This allows calculation of shorter term and longer term averages. If `nPoints` is less than one, or larger than the number of points given in the constructor, then the overall average is returned, i.e. the same value as `getAvg()` would return.
+##### Syntax
+`getAvg(nPoints);`
+##### Parameters
+**nPoints:** The number of points to use to calculate a shorter-term average. *(int)*
+##### Returns
+The moving average value. *(int)*
+##### Example
+```c++
+int sensorMovingAvg = mySensor.getAvg(4);
+```
+
 ### getCount()
 ##### Description
 Returns the number of data points collected for the moving average, a number between zero and *interval*. This function can be used to determine if a valid moving average exists. This may be useful, for example, to avoid calling `getAvg()` before any data points have been added to the moving average. Calling `getAvg()` before any data points are added causes a divide by zero which will result in invalid data and/or undefined/undesired behavior.

@@ -15,14 +15,12 @@ void movingAvg::begin()
 int movingAvg::reading(int newReading)
 {
     // add each new data point to the sum until the m_readings array is filled
-    if (m_nbrReadings < m_interval)
-    {
+    if (m_nbrReadings < m_interval) {
         ++m_nbrReadings;
-        m_sum = m_sum + newReading;
+        m_sum += newReading;
     }
     // once the array is filled, subtract the oldest data point and add the new one
-    else
-    {
+    else {
         m_sum = m_sum - m_readings[m_next] + newReading;
     }
 
@@ -35,6 +33,22 @@ int movingAvg::reading(int newReading)
 int movingAvg::getAvg()
 {
     return (m_sum + m_nbrReadings / 2) / m_nbrReadings;
+}
+
+// return the average for a subset of the data, the most recent nPoints readings.
+// for invalid values of nPoints, just return the overall average.
+int movingAvg::getAvg(int nPoints)
+{
+    if (nPoints < 1 || nPoints > m_interval - 1) {
+        return (m_sum + m_nbrReadings / 2) / m_nbrReadings;
+    }
+    else {
+        long sum {0};
+        for (int i=m_nbrReadings-1; i>=m_nbrReadings-nPoints; --i) {
+            sum += m_readings[i];
+        }
+        return (sum + nPoints / 2) / nPoints;
+    }
 }
 
 // start the moving average over again
