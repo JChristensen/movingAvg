@@ -24,6 +24,6 @@ class movingAvg
         int m_nbrReadings;  // number of readings
         long m_sum;         // sum of the m_readings array
         int m_next;         // index to the next reading
-        int *m_readings;    // pointer to the dynamically allocated interval array
+        int* m_readings;    // pointer to the dynamically allocated interval array
 };
 #endif
