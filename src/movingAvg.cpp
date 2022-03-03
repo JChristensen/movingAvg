@@ -36,15 +36,22 @@ int movingAvg::getAvg()
 }
 
 // return the average for a subset of the data, the most recent nPoints readings.
-// for invalid values of nPoints, just return the overall average.
+// for invalid values of nPoints, return zero.
 int movingAvg::getAvg(int nPoints)
 {
-    if (nPoints < 1 || nPoints > m_interval - 1) {
-        return (m_sum + m_nbrReadings / 2) / m_nbrReadings;
+    if (nPoints < 1 || nPoints > m_interval || nPoints > m_nbrReadings) {
+        return 0;
     }
     else {
-        long sum {0};
-        for (int i=m_nbrReadings-1; i>=m_nbrReadings-nPoints; --i) {
+        long sum{0};
+        int i = m_next;
+        for (int n=0; n<nPoints; ++n) {
+            if (i == 0) {
+                i = m_interval - 1;
+            }
+            else {
+                --i;
+            }
             sum += m_readings[i];
         }
         return (sum + nPoints / 2) / nPoints;

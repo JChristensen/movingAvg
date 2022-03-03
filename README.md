@@ -81,7 +81,7 @@ int sensorMovingAvg = mySensor.getAvg();
 
 ### getAvg(int nPoints)
 ##### Description
-Like `getAvg()` except only uses the most recent `nPoints` data points to calculate the average. This allows calculation of shorter term and longer term averages. If `nPoints` is less than one, or larger than the number of points given in the constructor, then the overall average is returned, i.e. the same value as `getAvg()` would return.
+Like `getAvg()` except only uses the most recent `nPoints` data points to calculate the average. This allows calculation of shorter term and longer term averages. If `nPoints` is less than one, or larger than the number of points given in the constructor, or larger than the number of data points so far accumulated, then zero is returned.
 ##### Syntax
 `getAvg(nPoints);`
 ##### Parameters
