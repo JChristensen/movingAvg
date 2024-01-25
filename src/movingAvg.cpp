@@ -5,63 +5,65 @@
 
 #include <movingAvg.h>
 
-// initialize - allocate the interval array
-void movingAvg::begin()
-{
-    m_readings = new int[m_interval];
+// Constructor
+movingAvg::movingAvg(int intervalSize) 
+    : interval(intervalSize), numReadings(0), totalSum(0), nextIndex(0), readings(nullptr) {
 }
 
-// add a new reading and return the new moving average
-int movingAvg::reading(int newReading)
-{
-    // add each new data point to the sum until the m_readings array is filled
-    if (m_nbrReadings < m_interval) {
-        ++m_nbrReadings;
-        m_sum += newReading;
-    }
-    // once the array is filled, subtract the oldest data point and add the new one
-    else {
-        m_sum = m_sum - m_readings[m_next] + newReading;
-    }
-
-    m_readings[m_next] = newReading;
-    if (++m_next >= m_interval) m_next = 0;
-    return (m_sum + m_nbrReadings / 2) / m_nbrReadings;
+// Destructor
+movingAvg::~movingAvg() {
+    delete[] readings;
 }
 
-// just return the current moving average
-int movingAvg::getAvg()
-{
-    return (m_sum + m_nbrReadings / 2) / m_nbrReadings;
+void movingAvg::begin() {
+    readings = new int[interval]();
+    numReadings = 0;
+    totalSum = 0;
+    nextIndex = 0;
 }
 
-// return the average for a subset of the data, the most recent nPoints readings.
-// for invalid values of nPoints, return zero.
-int movingAvg::getAvg(int nPoints)
-{
-    if (nPoints < 1 || nPoints > m_interval || nPoints > m_nbrReadings) {
-        return 0;
-    }
-    else {
-        long sum{0};
-        int i = m_next;
-        for (int n=0; n<nPoints; ++n) {
-            if (i == 0) {
-                i = m_interval - 1;
-            }
-            else {
-                --i;
-            }
-            sum += m_readings[i];
-        }
-        return (sum + nPoints / 2) / nPoints;
+void movingAvg::getReadings(int* outArray, int maxSize) const {
+    for (int i = 0; i < numReadings && i < maxSize; ++i) {
+        outArray[i] = readings[i];
     }
 }
 
-// start the moving average over again
-void movingAvg::reset()
-{
-    m_nbrReadings = 0;
-    m_sum = 0;
-    m_next = 0;
+int movingAvg::reading(int newReading) {
+    if (numReadings < interval) {
+        totalSum += newReading;
+        readings[nextIndex++] = newReading;
+        ++numReadings;
+    } else {
+        totalSum = totalSum - readings[nextIndex] + newReading;
+        readings[nextIndex++] = newReading;
+    }
+
+    if (nextIndex >= interval) nextIndex = 0;
+
+    return totalSum / numReadings;
 }
+
+int movingAvg::getAvg() {
+    if (numReadings == 0) return 0;
+    return numReadings < interval ? totalSum / numReadings : totalSum / interval;
+}
+
+int movingAvg::getAvg(int nPoints) {
+    if (nPoints < 1 || nPoints > interval || nPoints > numReadings) return 0;
+    
+    long sum = 0;
+    int currentIndex = (nextIndex - 1 + interval) % interval;
+    for (int n = 0; n < nPoints; ++n) {
+        sum += readings[currentIndex];
+        currentIndex = (currentIndex - 1 + interval) % interval;
+    }
+    return sum / nPoints;
+}
+
+void movingAvg::reset() {
+    numReadings = 0;
+    totalSum = 0;
+    nextIndex = 0;
+}
+
+
