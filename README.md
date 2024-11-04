@@ -20,13 +20,15 @@ along with this program. If not, see <https://www.gnu.org/licenses/gpl.html>
 The user specifies the interval (number of data points) for the moving average in the constructor. When the `begin()` function is called, an array is dynamically allocated to hold the number of data points in the interval. This array is never deallocated, and the user should call `begin()` only once (for a given `movingAvg` instance) in setup or other initialization code. Dynamic allocation is used strictly with the intent of creating the proper size array for the user's purposes, and not to free up the memory at a later point. It is strongly recommended that `movingAvg` objects remain allocated as long as the code is running. Failure to observe these guidelines can result in heap fragmentation, crashes and other undesired behavior.
 
 ## Constructor
-### movingAvg(int interval)
+### movingAvg(int interval, bool avoidDivByZero=false)
 ##### Description
 Defines a `movingAvg` object where the average is calculated using *interval* data points.
 ##### Syntax
 `movingAvg(interval);`
 ##### Parameters
-**interval:** The number of data points to use when calculating the moving average. *(int)*
+**interval:** The number of data points to use when calculating the moving average. *(int)*  
+
+**avoidDivByZero:** Optional parameter that causes `getAvg()` ([see caution below](#getavg)) to return zero if called before any readings are recorded. *(bool, defaults to false if not given)*
 ##### Returns
 None.
 ##### Example
@@ -53,6 +55,7 @@ mySensor.begin();
 ### reading(int dataPoint)
 ##### Description
 Adds a new data point to the moving average. Returns the new moving average value. Until the interval array is filled, the average is calculated from those data points already added, i.e. a fewer number of points than defined by the constructor - thanks to Tom H. (Duckie) for this idea!
+
 ##### Syntax
 `reading(dataPoint);`
 ##### Parameters
@@ -68,6 +71,8 @@ int sensorMovingAvg = mySensor.reading(sensorData);
 ### getAvg()
 ##### Description
 Returns the current moving average value without adding a new reading.
+
+**Caution:** If `getAvg()` is called before any data points (readings) are recorded, a divide-by-zero situation will occur, likely with unpredictable/undesirable results. To instead have `getAvg()` return a value of zero in this case, set the optional `avoidDivByZero` parameter in the [constructor](#movingavgint-interval-bool-avoiddivbyzerofalse) to `true`. Note that this may require the caller to implement additional logic to differentiate between a "no data" situation and one where the average is actually zero.
 ##### Syntax
 `getAvg();`
 ##### Parameters

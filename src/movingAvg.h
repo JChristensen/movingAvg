@@ -9,8 +9,9 @@
 class movingAvg
 {
     public:
-        movingAvg(int interval)
-            : m_interval{interval}, m_nbrReadings{0}, m_sum{0}, m_next{0} {}
+        movingAvg(int interval, bool avoidDivByZero=false)
+            : m_interval{interval}, m_avoidDivByZero{avoidDivByZero},
+              m_nbrReadings{0}, m_sum{0}, m_next{0} {}
         void begin();
         int reading(int newReading);
         int getAvg();
@@ -20,10 +21,11 @@ class movingAvg
         int* getReadings() {return m_readings;}
 
     private:
-        int m_interval;     // number of data points for the moving average
-        int m_nbrReadings;  // number of readings
-        long m_sum;         // sum of the m_readings array
-        int m_next;         // index to the next reading
-        int* m_readings;    // pointer to the dynamically allocated interval array
+        int m_interval;         // number of data points for the moving average
+        bool m_avoidDivByZero;  // return a zero average if requested when there are no data points
+        int m_nbrReadings;      // number of readings
+        long m_sum;             // sum of the m_readings array
+        int m_next;             // index to the next reading
+        int* m_readings;        // pointer to the dynamically allocated interval array
 };
 #endif

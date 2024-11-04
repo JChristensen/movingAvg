@@ -32,7 +32,10 @@ int movingAvg::reading(int newReading)
 // just return the current moving average
 int movingAvg::getAvg()
 {
-    return (m_sum + m_nbrReadings / 2) / m_nbrReadings;
+    if (m_nbrReadings || !m_avoidDivByZero)
+        return (m_sum + m_nbrReadings / 2) / m_nbrReadings;
+    else
+        return 0;
 }
 
 // return the average for a subset of the data, the most recent nPoints readings.
